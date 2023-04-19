@@ -113,12 +113,9 @@
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
 
--- Prints a header for the movies output
-.print "Movies"
-.print "======"
-.print ""
 
--- The SQL statement for the movies output
+
+
 -- TODO!
 
 -- Prints a header for the cast output
@@ -130,3 +127,90 @@
 
 -- The SQL statement for the cast output
 -- TODO!
+
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS ensamble;
+
+-- CREATE TABLES
+CREATE TABLE movies (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  yr_released INTEGER,
+  mpaa_rating TEXT,
+  studio TEXT
+);
+
+CREATE TABLE actors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  actor_name TEXT,
+  character_name TEXT
+);
+
+CREATE TABLE ensamble (
+    actor_id INT,
+   movie_id INT
+);
+
+INSERT INTO movies (id, name, yr_released , mpaa_rating, studio ) VALUES (1, 'Batman Begins', 2005 , 'PG-13', 'Warner Bros');
+INSERT INTO movies (id, name,yr_released, mpaa_rating, studio) VALUES (2, 'The Dark Knight', 2008 , 'PG-13', 'Warner Bros');
+INSERT INTO movies (id, name,yr_released,mpaa_rating, studio) VALUES (3, 'The Dark Knight Rises', 2012 , 'PG-13', 'Warner Bros');
+
+INSERT INTO actors (actor_name, character_name)
+VALUES
+  ('Christian Bale', 'Bruce Wayne'),
+  ('Michael Caine', 'Alfred'),
+  ('Liam Neeson', 'Ra''s Al Ghul'),
+  ('Katie Holmes', 'Rachel Dawes'),
+  ('Gary Oldman', 'Commissioner Gordon'),
+  ('Christian Bale', 'Bruce Wayne'),
+  ('Heath Ledger', 'Joker'),
+  ('Aaron Eckhart', 'Harvey Dent'),
+  ('Michael Caine', 'Alfred'),
+  ('Maggie Gyllenhaal', 'Rachel Dawes'),
+  ('Christian Bale', 'Bruce Wayne'),
+  ('Gary Oldman', 'Commissioner Gordon'),
+  ('Tom Hardy', 'Bane'),
+  ('Joseph Gordon-Levitt', 'John Blake'),
+  ('Anne Hathaway', 'Selina Kyle');
+
+INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 1);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (2, 1);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (3, 1);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (4, 1);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (5, 1);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 2);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (6, 2);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (7, 2);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (8, 2);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (9, 2);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 3);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (5, 3);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (10, 3);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (11, 3);
+INSERT INTO ensamble (actor_id , movie_id) VALUES (12, 3);
+
+-- Prints a header for the movies output
+.print "Movies"
+.print "======"
+.print ""
+
+-- The SQL statement for the movies output
+SELECT name, yr_released, mpaa_rating, studio 
+FROM movies
+;
+
+-- Prints a header for the cast output
+.print ""
+.print "Top Cast"
+.print "========"
+.print ""
+;
+
+-- The SQL statement for the cast output
+-- TODO!
+
+SELECT movies.name, actors.actor_name, actors.character_name
+FROM movies
+JOIN ensamble ON movies.id = ensamble.movie_id
+JOIN actors ON ensamble.actor_id = actors.id;
