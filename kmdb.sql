@@ -114,20 +114,6 @@
 -- TODO!
 
 
-
-
--- TODO!
-
--- Prints a header for the cast output
-.print ""
-.print "Top Cast"
-.print "========"
-.print ""
-
-
--- The SQL statement for the cast output
--- TODO!
-
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS actors;
 DROP TABLE IF EXISTS ensamble;
@@ -148,13 +134,13 @@ CREATE TABLE actors (
 );
 
 CREATE TABLE ensamble (
-    actor_id INT,
-   movie_id INT
-);
+  actor_id TEXT,
+  movie_id TEXT  
+)
 
-INSERT INTO movies (id, name, yr_released , mpaa_rating, studio ) VALUES (1, 'Batman Begins', 2005 , 'PG-13', 'Warner Bros');
-INSERT INTO movies (id, name,yr_released, mpaa_rating, studio) VALUES (2, 'The Dark Knight', 2008 , 'PG-13', 'Warner Bros');
-INSERT INTO movies (id, name,yr_released,mpaa_rating, studio) VALUES (3, 'The Dark Knight Rises', 2012 , 'PG-13', 'Warner Bros');
+INSERT INTO movies (id, name, yr_released , mpaa_rating, studio ) VALUES (1, 'Batman Begins', 2005 , 'PG-13', 'Warner Bros.');
+INSERT INTO movies (id, name,yr_released, mpaa_rating, studio) VALUES (2, 'The Dark Knight', 2008 , 'PG-13', 'Warner Bros.');
+INSERT INTO movies (id, name,yr_released,mpaa_rating, studio) VALUES (3, 'The Dark Knight Rises', 2012 , 'PG-13', 'Warner Bros.');
 
 INSERT INTO actors (actor_name, character_name)
 VALUES
@@ -212,3 +198,17 @@ SELECT movies.name, actors.actor_name, actors.character_name
 FROM movies
 JOIN ensamble ON movies.id = ensamble.movie_id
 JOIN actors ON ensamble.actor_id = actors.id;
+
+-- Prints a header for the cast output
+.print ""
+.print "Movies per actor"
+.print "========"
+.print ""
+;
+
+SELECT movies.name
+FROM movies
+JOIN ensamble ON movies.id = ensamble.movie_id
+JOIN actors ON ensamble.actor_id = actors.id
+WHERE actors.id= "1"
+;
