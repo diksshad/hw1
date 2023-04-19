@@ -208,8 +208,6 @@ FROM movies
 ;
 
 -- The SQL statement for the cast output
--- TODO!
-
 SELECT movies.name, actors.actor_name, actors.character_name
 FROM movies
 JOIN ensamble ON movies.id = ensamble.movie_id
