@@ -116,7 +116,8 @@
 
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS actors;
-DROP TABLE IF EXISTS ensamble;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS ensemble;
 
 -- CREATE TABLES
 CREATE TABLE movies (
@@ -129,52 +130,71 @@ CREATE TABLE movies (
 
 CREATE TABLE actors (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  actor_name TEXT,
+  actor_name TEXT
+);
+
+CREATE TABLE characters (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   character_name TEXT
 );
 
-CREATE TABLE ensamble (
-  actor_id TEXT,
-  movie_id TEXT  
-)
+CREATE TABLE ensemble (
+  movie_id INTEGER,
+  actor_id INTEGER,
+  character_id INTEGER
+);
 
-INSERT INTO movies (id, name, yr_released , mpaa_rating, studio ) VALUES (1, 'Batman Begins', 2005 , 'PG-13', 'Warner Bros.');
+INSERT INTO movies (id, name,yr_released, mpaa_rating, studio) VALUES (1, 'Batman Begins', 2005 , 'PG-13', 'Warner Bros.');
 INSERT INTO movies (id, name,yr_released, mpaa_rating, studio) VALUES (2, 'The Dark Knight', 2008 , 'PG-13', 'Warner Bros.');
 INSERT INTO movies (id, name,yr_released,mpaa_rating, studio) VALUES (3, 'The Dark Knight Rises', 2012 , 'PG-13', 'Warner Bros.');
 
-INSERT INTO actors (actor_name, character_name)
+INSERT INTO actors (actor_name)
 VALUES
-  ('Christian Bale', 'Bruce Wayne'),
-  ('Michael Caine', 'Alfred'),
-  ('Liam Neeson', 'Ra''s Al Ghul'),
-  ('Katie Holmes', 'Rachel Dawes'),
-  ('Gary Oldman', 'Commissioner Gordon'),
-  ('Christian Bale', 'Bruce Wayne'),
-  ('Heath Ledger', 'Joker'),
-  ('Aaron Eckhart', 'Harvey Dent'),
-  ('Michael Caine', 'Alfred'),
-  ('Maggie Gyllenhaal', 'Rachel Dawes'),
-  ('Christian Bale', 'Bruce Wayne'),
-  ('Gary Oldman', 'Commissioner Gordon'),
-  ('Tom Hardy', 'Bane'),
-  ('Joseph Gordon-Levitt', 'John Blake'),
-  ('Anne Hathaway', 'Selina Kyle');
+  ('Christian Bale'),
+  ('Michael Caine'),
+  ('Liam Neeson'),
+  ('Katie Holmes'),
+  ('Gary Oldman'),
+  ('Heath Ledger'),
+  ('Aaron Eckhart'),
+  ('Maggie Gyllenhaal'),
+  ('Tom Hardy'),
+  ('Joseph Gordon-Levitt'),
+  ('Anne Hathaway'); -- 11
 
-INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 1);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (2, 1);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (3, 1);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (4, 1);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (5, 1);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 2);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (6, 2);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (7, 2);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (8, 2);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (9, 2);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (1, 3);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (5, 3);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (10, 3);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (11, 3);
-INSERT INTO ensamble (actor_id , movie_id) VALUES (12, 3);
+  INSERT INTO characters (character_name)
+VALUES
+  ('Bruce Wayne'),
+  ('Alfred'),
+  ('Ra''s Al Ghul'),
+  ('Rachel Dawes'),
+  ('Commissioner Gordon'),
+  ('Joker'),
+  ('Harvey Dent'),
+  ('Bane'),
+  ('John Blake'),
+  ('Selina Kyle') --10
+  ;
+
+  INSERT INTO ensemble (movie_id, actor_id, character_id)
+VALUES
+  (1, 1, 1),
+  (1, 2, 2),
+  (1, 3, 3),
+  (1, 4, 4),
+  (1, 5, 5),
+  (2, 1, 1),
+  (2, 6, 6),
+  (2, 7, 7),
+  (2, 2, 2),
+  (2, 8, 4),
+  (3, 1, 1),
+  (3, 5, 5),
+  (3, 9, 8),
+  (3, 10, 9),
+  (3, 11, 10)
+  ;
+
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -193,22 +213,8 @@ FROM movies
 .print ""
 ;
 
--- The SQL statement for the cast output
-SELECT movies.name, actors.actor_name, actors.character_name
+SELECT movies.name, actors.actor_name, characters.character_name
 FROM movies
-JOIN ensamble ON movies.id = ensamble.movie_id
-JOIN actors ON ensamble.actor_id = actors.id;
-
--- Prints a header for the cast output
-.print ""
-.print "Movies per actor"
-.print "========"
-.print ""
-;
-
-SELECT movies.name
-FROM movies
-JOIN ensamble ON movies.id = ensamble.movie_id
-JOIN actors ON ensamble.actor_id = actors.id
-WHERE actors.id= "1"
-;
+JOIN ensemble ON movies.id = ensemble.movie_id
+JOIN actors ON ensemble.actor_id = actors.id
+JOIN characters ON ensemble.character_id = characters.id;
